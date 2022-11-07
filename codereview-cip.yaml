@@ -1,0 +1,50 @@
+apiVersion: policy.sigstore.dev/v1beta1
+kind: ClusterImagePolicy
+metadata:
+  name: codereview
+spec:
+  images:
+  - glob: "gcr.io/image-scans/*"
+  authorities:
+  - name: keyless-noid
+    keyless:
+      url: "https://fulcio.sigstore.dev"
+    attestations:
+    - name: codereview
+      predicateType: custom
+      policy:
+        type: cue
+        data: |
+          import (
+              "encoding/json"
+              "strings"
+          )
+          #Predicate: {
+              Data: string
+              Timestamp: string
+              ...
+          }
+          #Repo: {
+            branch: "main" | "origin/main"
+            uri:    string
+            uri:    =~"https:\/\/github.com\/example\/.*$"
+            type?:  string
+            ...
+          }
+          #AuthorEmail: {
+              author: string
+              author: =~ "^.*@example.com$"
+          }
+          #IndependentReview: {
+            author:   string
+            reviewer: string & !=author
+          }          
+          predicate: #Predicate & {
+              Data: string
+              jsonData: {...} & json.Unmarshal(Data) & {
+                repo: #Repo
+                author: #AuthorEmail.author
+                #IndependentReview                
+              }              
+          }
+

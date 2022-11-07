@@ -1,0 +1,12 @@
+{
+	"repo": {
+		"type": "git",
+		"uri": "https://github.com/example/my-project",
+		"branch": "main"
+	},
+	"author": "mailto:alice@example.com",
+	"reviewer": "mailto:bob@example.com"
+}
+
+
+
