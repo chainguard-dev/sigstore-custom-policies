@@ -10,6 +10,7 @@ import (
 #IndependentReview: {
 author:   string
 reviewer: string & !=author
+...
 }          
 predicate: #Predicate & {
   Data: string
