@@ -1,5 +1,7 @@
 # CNCF Webinar - Sigstore Policy Controller Demo Files
 
+[Recording](https://youtu.be/q0Kh5-94Vcw)
+
 ## Setup
 
 You can use any image but these are the steps I followed:
